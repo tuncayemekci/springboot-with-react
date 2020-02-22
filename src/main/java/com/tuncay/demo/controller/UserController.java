@@ -3,13 +3,14 @@ package com.tuncay.demo.controller;
 import com.tuncay.demo.model.User;
 import com.tuncay.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/rest")
+@CrossOrigin(origins="http://localhost:3000")
 public class UserController {
 
     private final UserService userService;
@@ -19,12 +20,20 @@ public class UserController {
         this.userService = userService;
     }
 
-    public int addUser(User user){
+    @PostMapping("/add-user")
+    public int addUser(@RequestBody User user){
         return userService.addUser(user);
     }
 
+    @GetMapping("/users")
     public List<User> getAllUsers(){
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/user/{email}")
+    public User getUserByEmail(@PathVariable("email") String USER_EMAIL){
+        return userService.getUserByEmail(USER_EMAIL)
+                .orElse(null);
     }
 
 

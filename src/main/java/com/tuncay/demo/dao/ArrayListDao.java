@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository("ArrayListDao")
@@ -29,6 +30,13 @@ public class ArrayListDao implements UserDao {
     @Override
     public List<User> selectAllUsers(){
         return DB;
+    }
+
+    @Override
+    public Optional<User> selectUserByEmail(String USER_EMAIL) {
+        return DB.stream()
+                .filter(user -> user.getUSER_EMAIL().equals(USER_EMAIL))
+                .findFirst();
     }
 
 
