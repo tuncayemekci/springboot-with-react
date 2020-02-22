@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Container, Row, Jumbotron, Col, Button} from 'react-bootstrap';
+import {Container, Row, Col} from 'react-bootstrap';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
 import NavigationBar from './components/NavigationBar';
@@ -8,6 +8,7 @@ import HomePage from './components/HomePage';
 import Footer from './components/Footer';
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
+import Profile from "./components/Profile";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
                         <Route path="/" exact component={HomePage} />
                         <Route path="/login" exact component={LoginPage} />
                         <Route path="/register" exact component={RegisterPage} />
+                        <Route path="/profile" exact component={Profile} />
                     </Switch>
                 </Col>
             </Row>
