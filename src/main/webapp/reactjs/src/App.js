@@ -7,7 +7,7 @@ import NavigationBar from './components/NavigationBar';
 import HomePage from './components/HomePage';
 import Footer from './components/Footer';
 import LoginPage from "./components/LoginPage";
-import RegisterPage from "./components/RegisterPage";
+import SignupPage from "./components/SignupPage";
 import Profile from "./components/Profile";
 
 
@@ -26,7 +26,7 @@ function App() {
                     <Switch>
                         <Route path="/" exact component={HomePage} />
                         <Route path="/login" exact component={LoginPage} />
-                        <Route path="/register" exact component={RegisterPage} />
+                        <Route path="/signup" exact component={SignupPage} />
                         <Route path="/profile" exact component={Profile} />
                     </Switch>
                 </Col>

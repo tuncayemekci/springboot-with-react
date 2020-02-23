@@ -14,11 +14,11 @@ public class ArrayListDao implements UserDao {
     private static List<User> DB = new ArrayList<>();
 
     static {
-        DB.add(new User("Tuncay", "12345", "tuncayemekci@gmail.com"));
-        DB.add(new User("Ali", "abcasd", "ali@gmail.com"));
-        DB.add(new User("Veli", "tasdsd", "veli@gmail.com"));
-        DB.add(new User("Hasan", "kjghas", "hasan@gmail.com"));
-        DB.add(new User("Huseyin", "fahgwa", "huseyin@gmail.com"));
+        DB.add(new User("tuncayemekci@gmail.com", "12345"));
+        DB.add(new User("ali@gmail.com", "abcasd"));
+        DB.add(new User("veli@gmail.com", "tasdsd"));
+        DB.add(new User("hasan@gmail.com", "kjghas"));
+        DB.add(new User("huseyin@gmail.com", "fahgwa"));
     }
 
     @Override

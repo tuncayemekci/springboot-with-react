@@ -7,15 +7,13 @@ import java.util.UUID;
 public class User {
 
     private UUID id;
-    private String USER_NAME;
-    private String USER_PASSWORD;
     private String USER_EMAIL;
+    private String USER_PASSWORD;
 
-    public User(@JsonProperty String USER_NAME, @JsonProperty String USER_PASSWORD, @JsonProperty String USER_EMAIL) {
+    public User(@JsonProperty String USER_EMAIL, @JsonProperty String USER_PASSWORD) {
         this.id = UUID.randomUUID();
-        this.USER_NAME = USER_NAME;
-        this.USER_PASSWORD = USER_PASSWORD;
         this.USER_EMAIL = USER_EMAIL;
+        this.USER_PASSWORD = USER_PASSWORD;
     }
 
     public UUID getId() {
@@ -24,14 +22,6 @@ public class User {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getUSER_NAME() {
-        return USER_NAME;
-    }
-
-    public void setUSER_NAME(String USER_NAME) {
-        this.USER_NAME = USER_NAME;
     }
 
     public String getUSER_PASSWORD() {

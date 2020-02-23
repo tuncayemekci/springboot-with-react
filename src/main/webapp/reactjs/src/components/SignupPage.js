@@ -1,18 +1,15 @@
 import React from 'react';
-
-import {Form, Button} from 'react-bootstrap';
-import Profile from "./Profile";
-import {Redirect} from 'react-router-dom';
+import {Button, Form} from "react-bootstrap";
 import axios from 'axios';
 
-class LoginPage extends React.Component {
+class SignupPage extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             email: '',
-            password: '',
-            data: {}
+            password: ''
         }
     }
 
@@ -24,23 +21,22 @@ class LoginPage extends React.Component {
         this.setState({password: e.target.value})
     };
 
-    login = () => {
-        console.warn(this.state)
+    onChange = e => this.setState({[e.target.name]: e.target.value});
+
+    signup = () => {
         axios.get(`http://localhost:8080/rest/user/${this.state.email}`)
-            .then(res => {
-                const user = res.data;
-                this.setState({data: user})
-
-                if(this.state.data.user_PASSWORD == this.state.password){
-                    this.props.history.push("/profile");
-                } else {
-                    this.setState({data: {}})
-                    alert("Please check email and password")
-                }
-            })
-            .catch(err => console.error(err))
-
-    };
+            .then(resp => {
+                    console.warn(resp)
+                    if(resp.data.id) {
+                        console.warn("Böyle bir kullanıcı var")
+                    } else {
+                        axios.post(`http://localhost:8080/rest/add-user`, {user_EMAIL: this.state.email, user_PASSWORD: this.state.password})
+                            .then(resp => {
+                                console.warn("axios post: " + resp.data)
+                            })
+                    }
+                })
+    }
 
     render(){
         return(
@@ -56,15 +52,13 @@ class LoginPage extends React.Component {
                         <Form.Control type="password" placeholder="Password" onChange={e => {this.handlePassword(e)}}/>
                     </Form.Group>
 
-                    <Button variant="primary" onClick={this.login} >
+                    <Button variant="primary" onClick={this.signup} >
                         Submit
                     </Button>
                 </Form>
             </div>
-
-
         )
     }
 }
 
-export default LoginPage;
+export default SignupPage;
