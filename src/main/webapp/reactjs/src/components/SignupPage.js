@@ -30,7 +30,7 @@ class SignupPage extends React.Component {
                     if(resp.data.id) {
                         console.warn("Böyle bir kullanıcı var")
                     } else {
-                        axios.post(`http://localhost:8080/rest/add-user`, {user_EMAIL: this.state.email, user_PASSWORD: this.state.password})
+                        axios.post(`http://localhost:8080/rest/add-user`, {USER_EMAIL: this.state.email, USER_PASSWORD: this.state.password})
                             .then(resp => {
                                 console.warn("axios post: " + resp.data)
                             })
