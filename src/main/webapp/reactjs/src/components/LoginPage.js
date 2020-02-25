@@ -11,8 +11,7 @@ class LoginPage extends React.Component {
         super(props);
         this.state = {
             email: '',
-            password: '',
-            data: {}
+            password: ''
         }
     }
 
@@ -27,11 +26,10 @@ class LoginPage extends React.Component {
     login = () => {
         console.warn(this.state)
         axios.get(`http://localhost:8080/rest/user/${this.state.email}`)
-            .then(res => {
-                const user = res.data;
-                this.setState({data: user})
+            .then(resp => {
+                if(resp.data.USER_PASSWORD == this.state.password){
 
-                if(this.state.data.user_PASSWORD == this.state.password){
+                    localStorage.setItem("session", resp.data.USER_EMAIL)
                     this.props.history.push("/profile");
                 } else {
                     this.setState({data: {}})

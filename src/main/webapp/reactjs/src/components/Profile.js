@@ -11,11 +11,18 @@ class Profile extends React.Component {
 
     }
 
+    componentDidMount() {
+        const session = (localStorage.getItem("session") != undefined) ? localStorage.getItem("session") : '';
+        this.setState({email : session})
+    }
+
 
     render(){
+        const text = this.state.email == '' ? '' : `Email: ${this.state.email}`;
+
         return(
             <div>
-                <label>asdasdasdasdasdasd</label>
+                <label className="bg-dark text-white">{text}</label>
             </div>
         )
     }
