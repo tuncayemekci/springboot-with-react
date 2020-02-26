@@ -21,7 +21,7 @@ class Profile extends React.Component {
         const text = this.state.email == '' ? '' : `Email: ${this.state.email}`;
 
         return(
-            <div>
+            <div class="text-center">
                 <label className="bg-dark text-white">{text}</label>
             </div>
         )
