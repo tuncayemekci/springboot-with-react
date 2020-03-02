@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Form} from "react-bootstrap";
+import {Col, Button, Form} from "react-bootstrap";
 import axios from 'axios';
 
 class SignupPage extends React.Component {
@@ -8,8 +8,14 @@ class SignupPage extends React.Component {
         super(props);
 
         this.state = {
-            email: '',
-            password: ''
+            email: "",
+            password: ""
+        }
+    }
+
+    componentDidMount() {
+        if(localStorage.getItem("session")){
+            this.props.history.push("/profile");
         }
     }
 
@@ -40,7 +46,8 @@ class SignupPage extends React.Component {
 
     render(){
         return(
-            <div className="text-white">
+            <Col md={{span: 4, offset: 4}} xs={{span: 6, offset: 3}} className="text-white">
+                <h1 className="text-center">Sign Up</h1>
                 <Form>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
@@ -56,7 +63,7 @@ class SignupPage extends React.Component {
                         Submit
                     </Button>
                 </Form>
-            </div>
+            </Col>
         )
     }
 }

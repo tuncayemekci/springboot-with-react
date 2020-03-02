@@ -9,32 +9,94 @@ import Footer from './components/Footer';
 import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import Profile from "./components/Profile";
+import Logout from "./components/Logout";
 
 
-function App() {
+class App extends React.Component {
 
-  const marginTop = {
-      marginTop: "20px"
-  };
+    constructor(props) {
+        super(props);
 
-  return (
-    <Router>
-        <NavigationBar />
-        <Container>
-            <Row>
-                <Col lg={12} style={marginTop}>
-                    <Switch>
-                        <Route path="/" exact component={HomePage} />
-                        <Route path="/login" exact component={LoginPage} />
-                        <Route path="/signup" exact component={SignupPage} />
-                        <Route path="/profile" exact component={Profile} />
-                    </Switch>
-                </Col>
-            </Row>
-        </Container>
-        <Footer />
-    </Router>
-  );
+        this.state = {
+            isLoggedIn: "false",
+            user: {}
+        }
+    }
+
+    componentDidMount() {
+        if(localStorage.getItem("session")){
+            this.setState({isLoggedIn:"true"});
+        }
+    };
+
+    handleLogin = (data) => {
+        this.setState({
+            isLoggedIn: "true",
+            user: data
+        });
+
+        localStorage.setItem("session", data.USER_EMAIL);
+    };
+
+    handleLogout = (exit) => {
+        if(exit === "LOGOUT"){
+            this.setState({
+                isLoggedIn: "false",
+                user: {}
+            });
+
+            localStorage.removeItem("session");
+        }
+    }
+
+
+    render(){
+        return (
+            <Router>
+                <NavigationBar isLoggedIn={this.state.isLoggedIn}/>
+                <Container>
+                    <Row>
+                        <Col lg={12} style={{marginTop: "20px"}}>
+                            <Switch>
+                                <Route
+                                    path="/"
+                                    exact
+                                    component={HomePage}
+                                />
+                                <Route
+                                    path="/login"
+                                    exact
+                                    render={props => (
+                                        <LoginPage {...props} handleLogin={this.handleLogin} />
+                                    )}
+                                />
+                                <Route
+                                    path="/signup"
+                                    exact
+                                    component={SignupPage}
+                                />
+                                <Route
+                                    path="/profile"
+                                    exact
+                                    component={Profile}
+                                />
+                                <Route
+                                    path="/logout"
+                                    exact
+                                    render={props => (
+                                        <Logout {...props} handleLogout={this.handleLogout} />
+                                    )}
+                                />
+                            </Switch>
+                        </Col>
+                    </Row>
+                </Container>
+                <Footer />
+            </Router>
+        )
+    }
+
+
 }
 
 export default App;
