@@ -1,45 +1,32 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import {Navbar, Nav} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import {LoginContext} from "../Store";
 
-class NavigationBar extends React.Component {
+const NavigationBar = () => {
 
-    constructor(props) {
-        super(props);
+    const [isLoggedIn, ] = useContext(LoginContext);
 
-        this.state = {
-            isLoggedIn: this.props.isLoggedIn
-        }
-    }
+    console.warn("NavigationBar'ın içindeyiz");
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.isLoggedIn !== this.props.isLoggedIn) {
-            this.setState({isLoggedIn: this.props.isLoggedIn});
-        }
-    }
-
-    render(){
-        console.warn("NavigationBar.js: this.state.isLoggedIn --->" + this.state.isLoggedIn + "   this.props.isLoggedIn --->" + this.props.isLoggedIn);
-
-        return(
-            <Navbar bg="dark" variant="dark">
-                <Nav className="mr-auto">
-                    <Link to="/" className="nav-link">Home</Link>
-                    { this.state.isLoggedIn === "false" ?
-                        (
-                            <>
-                                <Link to="/login" className="nav-link">Login</Link>
-                                <Link to="/signup" className="nav-link">Signup</Link>
-                            </>
-                        ) : (
-                            <Link to="/profile" className="nav-link">Profile</Link>
-                        ) }
-                </Nav>
-                { this.state.isLoggedIn === "true" ? (<Nav><Link to="/logout" className="nav-link">Logout</Link></Nav>) : "" }
-            </Navbar>
-        )
-    }
+    return(
+        <Navbar bg="dark" variant="dark">
+            <Nav className="mr-auto">
+                <Link to="/" className="nav-link">Home</Link>
+                { isLoggedIn === "false" ?
+                    (
+                        <>
+                            <Link to="/login" className="nav-link">Login</Link>
+                            <Link to="/signup" className="nav-link">Signup</Link>
+                        </>
+                    ) : (
+                        <Link to="/profile" className="nav-link">Profile</Link>
+                    ) }
+            </Nav>
+            { isLoggedIn === "true" ? (<Nav><Link to="/logout" className="nav-link">Logout</Link></Nav>) : "" }
+        </Navbar>
+    )
 }
 
 export default NavigationBar;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import './App.css';
 import {Container, Row, Col} from 'react-bootstrap';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
@@ -10,50 +10,33 @@ import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
+import Store, {LoginContext, UserContext} from "./Store";
 
 
-class App extends React.Component {
 
-    constructor(props) {
-        super(props);
+const App = () => {
 
-        this.state = {
-            isLoggedIn: "false",
-            user: {}
-        }
-    }
+    const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
+    const [user, setUser] = useContext(UserContext);
 
-    componentDidMount() {
+    useEffect(() => {
         if(localStorage.getItem("session")){
-            this.setState({isLoggedIn:"true"});
+            console.warn("Kullanıcı var!")
+            setIsLoggedIn(true);
         }
-    };
+    }, [isLoggedIn]);
 
-    handleLogin = (data) => {
-        this.setState({
-            isLoggedIn: "true",
-            user: data
-        });
-
-        localStorage.setItem("session", data.USER_EMAIL);
-    };
-
-    handleLogout = (exit) => {
-        if(exit === "LOGOUT"){
-            this.setState({
-                isLoggedIn: "false",
-                user: {}
-            });
-
-            localStorage.removeItem("session");
+    useEffect(() => {
+        if(user){
+            localStorage.setItem("session", user.USER_EMAIL);
         }
-    }
+        console.warn("2. useEffect ---> isLoggedIn:" + isLoggedIn + "  User: " + user);
+    }, [user]);
 
-
-    render(){
-        return (
+    return (
+        <Store>
             <Router>
-                <NavigationBar isLoggedIn={this.state.isLoggedIn}/>
+                <NavigationBar/>
                 <Container>
                     <Row>
                         <Col lg={12} style={{marginTop: "20px"}}>
@@ -67,7 +50,7 @@ class App extends React.Component {
                                     path="/login"
                                     exact
                                     render={props => (
-                                        <LoginPage {...props} handleLogin={this.handleLogin} />
+                                        <LoginPage {...props}/>
                                     )}
                                 />
                                 <Route
@@ -84,7 +67,7 @@ class App extends React.Component {
                                     path="/logout"
                                     exact
                                     render={props => (
-                                        <Logout {...props} handleLogout={this.handleLogout} />
+                                        <Logout {...props}/>
                                     )}
                                 />
                             </Switch>
@@ -93,9 +76,8 @@ class App extends React.Component {
                 </Container>
                 <Footer />
             </Router>
-        )
-    }
-
+        </Store>
+    )
 
 }
 
