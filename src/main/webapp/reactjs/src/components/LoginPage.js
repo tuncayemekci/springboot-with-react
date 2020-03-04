@@ -7,7 +7,7 @@ import axios from 'axios';
 const LoginPage = (props) => {
 
     const [, setIsLoggedIn] = useContext(LoginContext);
-    const [, setUser] = useContext(UserContext);
+    const [user, setUser] = useContext(UserContext);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -24,11 +24,14 @@ const LoginPage = (props) => {
     const login = () => {
 
         axios.get(`http://localhost:8080/rest/user/${email}`)
-            .then(resp => {
+            .then( resp => {
                 if(resp.data.USER_PASSWORD === password){
 
+                    setUser(resp.data.USER_EMAIL);
+                    console.warn("User--> " + user);
+
                     setIsLoggedIn("true");
-                    setUser(resp.data);
+                    console.warn("resp.data.USER_EMAIL: " + resp.data.USER_EMAIL);
 
                     props.history.push("/profile");
                 } else {

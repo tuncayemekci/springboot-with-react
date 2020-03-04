@@ -10,7 +10,7 @@ import LoginPage from "./components/LoginPage";
 import SignupPage from "./components/SignupPage";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
-import Store, {LoginContext, UserContext} from "./Store";
+import {LoginContext, UserContext} from "./Store";
 
 
 
@@ -19,64 +19,48 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
     const [user, setUser] = useContext(UserContext);
 
+    // İlk anda session'da kayıt var mı yok mu kontrolü
     useEffect(() => {
         if(localStorage.getItem("session")){
-            console.warn("Kullanıcı var!")
-            setIsLoggedIn(true);
+            console.warn("Session var!")
+            setIsLoggedIn("true");
+            setUser(localStorage.getItem("session"));
         }
-    }, [isLoggedIn]);
+        console.warn("Session yok!");
+    }, []);
 
     useEffect(() => {
-        if(user){
-            localStorage.setItem("session", user.USER_EMAIL);
+        if(isLoggedIn === "true"){
+            localStorage.clear();
+            localStorage.setItem("session", user);
+            console.warn("isLoggedIn: True")
         }
+
+        if (isLoggedIn === "false"){
+            console.warn("isLoggedIn: False");
+        }
+
         console.warn("2. useEffect ---> isLoggedIn:" + isLoggedIn + "  User: " + user);
-    }, [user]);
+    }, [isLoggedIn]);
 
     return (
-        <Store>
-            <Router>
-                <NavigationBar/>
-                <Container>
-                    <Row>
-                        <Col lg={12} style={{marginTop: "20px"}}>
-                            <Switch>
-                                <Route
-                                    path="/"
-                                    exact
-                                    component={HomePage}
-                                />
-                                <Route
-                                    path="/login"
-                                    exact
-                                    render={props => (
-                                        <LoginPage {...props}/>
-                                    )}
-                                />
-                                <Route
-                                    path="/signup"
-                                    exact
-                                    component={SignupPage}
-                                />
-                                <Route
-                                    path="/profile"
-                                    exact
-                                    component={Profile}
-                                />
-                                <Route
-                                    path="/logout"
-                                    exact
-                                    render={props => (
-                                        <Logout {...props}/>
-                                    )}
-                                />
-                            </Switch>
-                        </Col>
-                    </Row>
-                </Container>
-                <Footer />
-            </Router>
-        </Store>
+        <Router>
+            <NavigationBar/>
+            <Container>
+                <Row>
+                    <Col lg={12} style={{marginTop: "20px"}}>
+                        <Switch>
+                            <Route path="/" exact component={HomePage} />
+                            <Route path="/login" exact component={LoginPage} />
+                            <Route path="/signup" exact component={SignupPage} />
+                            <Route path="/profile" exact component={Profile} />
+                            <Route path="/logout" exact component={Logout} />
+                        </Switch>
+                    </Col>
+                </Row>
+            </Container>
+            <Footer />
+        </Router>
     )
 
 }

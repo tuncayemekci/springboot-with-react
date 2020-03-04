@@ -1,40 +1,29 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { UserContext } from "../Store";
+import { Redirect } from "react-router-dom";
 
-class Profile extends React.Component {
+const Profile = (props) => {
 
-    constructor(props) {
-        super(props);
+    const [user, ] = useContext(UserContext);
+    const [redirect, setRedirect] = useState("false");
 
-        this.state = {
-            email: ""
-        }
-
-    }
-
-    componentDidMount() {
-
+    useEffect(() => {
         if(!localStorage.getItem("session")){
-            this.props.history.push("/");
+            setRedirect("true");
         }
-
-        console.warn("Profile.js ---> " + localStorage.getItem("session"));
-
-        const session = (localStorage.getItem("session")) ? localStorage.getItem("session") : '';
-        this.setState({email : session});
-    }
+    }, [user]);
 
 
-    render(){
-        const text = this.state.email === "" ? "" : `Email: ${this.state.email}`;
+    const text = user === undefined ? "Email is empty!" : `Email: ${user}`;
 
-        return(
+    return(
+        redirect === "true" ? <Redirect to="/"/> : (
             <div className="text-center">
                 <label className="bg-dark text-white">{text}</label>
             </div>
         )
-    }
+    )
 
-
-}
+};
 
 export default Profile;
