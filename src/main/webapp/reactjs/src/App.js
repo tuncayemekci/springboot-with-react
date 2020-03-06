@@ -19,7 +19,7 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
     const [user, setUser] = useContext(UserContext);
 
-    // İlk anda session'da kayıt var mı yok mu kontrolü
+    // Check if there is an any session on the start.
     useEffect(() => {
         if(localStorage.getItem("session")){
             console.warn("Session var!")
@@ -29,6 +29,7 @@ const App = () => {
         console.warn("Session yok!");
     }, []);
 
+    // Check when isLoggedIn changes.
     useEffect(() => {
         if(isLoggedIn === "true"){
             localStorage.clear();
@@ -40,7 +41,6 @@ const App = () => {
             console.warn("isLoggedIn: False");
         }
 
-        console.warn("2. useEffect ---> isLoggedIn:" + isLoggedIn + "  User: " + user);
     }, [isLoggedIn]);
 
     return (
