@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {Col, Button, Form} from "react-bootstrap";
+import {Col, Button, Form, Alert} from "react-bootstrap";
 import axios from 'axios';
 
 const SignupPage = (props) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     useEffect(() => {
         if(localStorage.getItem("session")){
@@ -27,11 +28,13 @@ const SignupPage = (props) => {
             .then(resp => {
                     console.warn(resp)
                     if(resp.data.id) {
-                        console.warn("Böyle bir kullanıcı var")
+                        console.warn("Böyle bir kullanıcı var");
+                        setError("An account already exists with this email address.");
                     } else {
                         axios.post(`http://localhost:8080/rest/add-user`, {USER_EMAIL: email, USER_PASSWORD: password})
                             .then(resp => {
                                 console.warn("axios post: " + resp.data);
+                                setError("");
                                 props.history.push("/login");
                             })
                     }
@@ -42,6 +45,9 @@ const SignupPage = (props) => {
     return(
         <Col md={{span: 4, offset: 4}} xs={{span: 6, offset: 3}} className="text-white">
             <h1 className="text-center">Sign Up</h1>
+            {
+                (error.length > 1) ? (<Alert variant="warning">{error}</Alert>) : ""
+            }
             <Form>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
