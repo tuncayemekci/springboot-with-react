@@ -1,23 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { UserContext } from "../Store";
+import { UserContext, LoginContext } from "../Store";
 import { Redirect } from "react-router-dom";
 
-const Profile = (props) => {
+const Profile = () => {
 
+    const [isLoggedIn, ] = useContext(LoginContext);
     const [user, ] = useContext(UserContext);
-    const [redirect, setRedirect] = useState("false");
+
+    const [redirect, setRedirect] = useState(false);
+
 
     useEffect(() => {
-        if(!localStorage.getItem("session")){
-            setRedirect("true");
+        if(!isLoggedIn){
+            setRedirect(true);
         }
-    }, [user]);
+    }, [user, isLoggedIn]);
 
 
     const text = user === undefined ? "Email is empty!" : `Email: ${user}`;
 
+    console.log("Rendering Profile");
+
     return(
-        redirect === "true" ? <Redirect to="/"/> : (
+        redirect ? <Redirect to="/"/> : (
             <div className="text-center">
                 <label className="bg-dark text-white">{text}</label>
             </div>

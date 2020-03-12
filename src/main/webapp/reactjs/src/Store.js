@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 export const UserContext  = React.createContext("");
-export const LoginContext = React.createContext("false");
+export const LoginContext = React.createContext(false);
 
 const Store = ({children}) => {
 
-    const [isLoggedIn, setIsLoggedIn] = useState("false");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState("");
 
     return(

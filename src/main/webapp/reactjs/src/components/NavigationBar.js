@@ -8,13 +8,13 @@ const NavigationBar = () => {
 
     const [isLoggedIn, ] = useContext(LoginContext);
 
-    console.warn("NavigationBar'ın içindeyiz");
 
+    console.log("Rendering NavigationBar");
     return(
         <Navbar bg="dark" variant="dark">
             <Nav className="mr-auto">
                 <Link to="/" className="nav-link">Home</Link>
-                { isLoggedIn === "false" ?
+                { !isLoggedIn ?
                     (
                         <>
                             <Link to="/login" className="nav-link">Login</Link>
@@ -24,7 +24,7 @@ const NavigationBar = () => {
                         <Link to="/profile" className="nav-link">Profile</Link>
                     ) }
             </Nav>
-            { isLoggedIn === "true" ? (<Nav><Link to="/logout" className="nav-link">Logout</Link></Nav>) : "" }
+            { isLoggedIn ? (<Nav><Link to="/logout" className="nav-link">Logout</Link></Nav>) : "" }
         </Navbar>
     )
 }

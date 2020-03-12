@@ -7,7 +7,7 @@ const Logout = () => {
     const [, setIsLoggedIn] = useContext(LoginContext);
     const [, setUser] = useContext(UserContext);
 
-    setIsLoggedIn("false");
+    setIsLoggedIn(false);
     setUser("");
     localStorage.clear();
     useHistory().push("/");

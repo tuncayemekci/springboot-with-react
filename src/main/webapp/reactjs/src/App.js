@@ -19,25 +19,29 @@ const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
     const [user, setUser] = useContext(UserContext);
 
+
     // Check if there is an any session on the start.
     useEffect(() => {
         if(localStorage.getItem("session")){
-            console.warn("Session var!")
-            setIsLoggedIn("true");
+            console.log("There is a session!");
+            setIsLoggedIn(true);
             setUser(localStorage.getItem("session"));
+        } else {
+            console.log("There is not a session.");
         }
-        console.warn("Session yok!");
+
     }, []);
 
     // Check when isLoggedIn changes.
     useEffect(() => {
-        if(isLoggedIn === "true"){
+        if(isLoggedIn){
             localStorage.clear();
             localStorage.setItem("session", user);
-            console.warn("isLoggedIn: True")
+            console.warn("User--> " + user);
         }
 
-        if (isLoggedIn === "false"){
+        if (!isLoggedIn){
+            localStorage.clear();
             console.warn("isLoggedIn: False");
         }
 

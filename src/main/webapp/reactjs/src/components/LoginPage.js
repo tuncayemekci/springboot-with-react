@@ -1,16 +1,30 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useEffect, useState, useRef} from 'react';
 import {UserContext, LoginContext} from "../Store";
 
-import {Form, Button, Col} from 'react-bootstrap';
+import {Form, Button, Col, Alert} from 'react-bootstrap';
+import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
 const LoginPage = (props) => {
 
-    const [, setIsLoggedIn] = useContext(LoginContext);
+    const [isLoggedIn, setIsLoggedIn] = useContext(LoginContext);
     const [user, setUser] = useContext(UserContext);
+
+    const inputRef = useRef(null);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [redirect, setRedirect] = useState(false);
+
+
+    useEffect(() => {
+        if(isLoggedIn){
+            setRedirect(true);
+        }
+
+        inputRef.current.focus();
+    }, [user, isLoggedIn]);
 
 
     const handleEmail = (e) => {
@@ -28,27 +42,30 @@ const LoginPage = (props) => {
                 if(resp.data.USER_PASSWORD === password){
 
                     setUser(resp.data.USER_EMAIL);
-                    console.warn("User--> " + user);
-
-                    setIsLoggedIn("true");
+                    setIsLoggedIn(true);
                     console.warn("resp.data.USER_EMAIL: " + resp.data.USER_EMAIL);
-
+                    setError("");
                     props.history.push("/profile");
                 } else {
-                    alert("Please check email and password")
+                    setError("The email or password you entered is incorrect.");
                 }
             })
-            .catch(err => console.error(err))
+            .catch(err => console.error(err));
 
     };
 
+    console.log("Rendering Login");
     return(
-        <Col md={{span: 4, offset: 4}} xs={{span: 6, offset: 3}} className="text-white">
+        redirect ? <Redirect to="/profile"/> :
+         <Col md={{span: 4, offset: 4}} xs={{span: 6, offset: 3}} className="text-white">
             <h1 className="text-center">Log In</h1>
+             {
+                 (error.length > 1) ? (<Alert variant="warning">{error}</Alert>) : ""
+             }
             <Form>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" onChange={e => {handleEmail(e)}}/>
+                    <Form.Control ref={inputRef} type="email" placeholder="Email" onChange={e => {handleEmail(e)}}/>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">

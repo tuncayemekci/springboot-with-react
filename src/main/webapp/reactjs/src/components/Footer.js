@@ -2,6 +2,7 @@ import React from "react";
 import {Navbar, Container, Col} from "react-bootstrap";
 
 const Footer = () => {
+    console.log("Rendering Footer");
     return(
         <Navbar fixed="bottom" bg="dark" variant="dark">
             <Container>
@@ -13,4 +14,4 @@ const Footer = () => {
     )
 }
 
-export default Footer;
+export default React.memo(Footer);
