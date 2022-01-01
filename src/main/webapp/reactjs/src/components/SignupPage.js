@@ -31,6 +31,12 @@ const SignupPage = (props) => {
         setPassword(e.target.value);
     };
 
+    const handleKeyDown = (e) => {
+        if(e.key === "Enter"){
+            handleSignup();
+        }
+    };
+
 
     const handleSignup = () => {
         axios.get(`http://localhost:8080/rest/user/${email}`)
@@ -59,7 +65,7 @@ const SignupPage = (props) => {
             {
                 (error.length > 1) ? (<Alert variant="warning">{error}</Alert>) : ""
             }
-            <Form>
+            <Form onKeyDown={handleKeyDown}>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control ref={inputRef} type="email" placeholder="Email" onChange={e => {handleEmail(e)}}/>
